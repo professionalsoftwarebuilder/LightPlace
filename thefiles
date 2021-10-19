@@ -1,0 +1,8 @@
+--2020-07-12 19:19:12--  https://github.com/coleifer/peewee/tree/master/examples/twitter/templates
+Herleiden van github.com (github.com)... 140.82.118.3
+Verbinding maken met github.com (github.com)|140.82.118.3|:443... verbonden.
+HTTP-verzoek is verzonden; wachten op antwoord... 200 OK
+Lengte: niet-opgegeven [text/html]
+templates: Is een map
+
+Kan niet naar '‘templates’' schrijven (Is een map).

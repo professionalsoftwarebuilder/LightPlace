@@ -1,0 +1,79 @@
+    {% load mptt_tags %}
+
+    <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mb-5">
+
+      <!-- Navbar brand
+      <span class="navbar-brand">Categorie&euml;n:</span>
+        -->
+
+      <!-- Collapse button -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+        aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Collapsible content -->
+      <div class="collapse navbar-collapse" id="basicExampleNav">
+
+
+
+        <!--o- #$# Categorie deel navbar -->
+
+        <ul class="navbar-nav mr-auto">
+          {% recursetree thecategories %}
+          {% if node.level == 0 %}
+          {% if not node.is_leaf_node %}
+          <!-- Let op: <li> tag wordt steeds onderaan aangevuld, ander werkt het niet...-->
+          <li class="dropdown nav-item">
+            <a href="/products_bycat/{{ node.id }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+              aria-expanded="false">
+              <span class="mainBarItem">{{ node.ctg_Title }}<span class="caret"></span> </span></a>
+              <ul class="children dropdown-menu">
+                <li><a href="/products_alldesc/{{ node.id }}">Alle {{ node.ctg_Title }} ></a>
+
+          {% else %}
+          <li><a href="/products_bycat/{{ node.id }}" class="mainBarItem">{{ node.ctg_Title }}</a>
+            {% endif %}
+
+            {% else %}
+            {% if not node.is_leaf_node %}
+              <li class="dropdown-submenu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false">
+                  <span class="nav-label">{{ node.ctg_Title }}&nbsp;&gt;</span><span class="caret"></span></a>
+                <ul class="children dropdown-menu">
+                  <li><a href="/products_alldesc/{{ node.id }}">Alle {{ node.ctg_Title }} ></a>
+
+            {% else %}
+
+              <li><a href="/products_bycat/{{ node.id }}">{{ node.ctg_Title }}</a>
+            {% endif %}
+            {% endif %}
+
+            {% if not node.is_leaf_node %}
+              {{ children }}
+            </ul>
+            {% endif %}
+          </li>
+
+          {% endrecursetree %}
+        </ul>
+
+
+
+
+
+
+
+        <!-- Links -->
+
+        <form class="form-inline">
+          <div class="md-form my-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          </div>
+        </form>
+      </div>
+      <!-- Collapsible content -->
+
+    </nav>
+    <!--/.Navbar-->

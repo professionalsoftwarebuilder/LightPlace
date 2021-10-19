@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load mptt_tags %}
+<ul>
+    {% recursetree categories %}
+    <li>
+        {{ node.ctg_Title }}
+        {% if not node.is_leaf_node %}
+        Hallo
+        <b class="caret">
+        </b>
+        <ul class="children">
+            {{ children }}
+        </ul>
+        {% endif %}
+    </li>
+    {% endrecursetree %}
+</ul>
+
+<ul>
+    {% recursetree categories %}
+    <li>
+        <a class="btn btn__light" href="#">
+            <span style="flex: 1 1 auto;">{{ node.ctg_Title }}</span>
+            {% if not node.is_leaf_node %}
+            <span> </span><span class="fa fa-angle-right"></span>
+            {% endif %}
+        </a>
+        {% if not node.is_leaf_node %}
+        <ul class="site_nav_primary__submenu ul__column white_box">
+            {{ children }}
+        </ul>
+        {% endif %}
+    </li>
+    {% endrecursetree %}
+</ul>
+
+
+
+
+
+
+
+{% endblock content %}
