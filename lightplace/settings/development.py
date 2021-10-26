@@ -1,8 +1,8 @@
 from .base import *
 import logging
 
-DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1', '127.0.0.2', 'localhost', 'localhost:8080', 'light-place.nl', 'www.light-place.nl']
+#DEBUG = True
+#ALLOWED_HOSTS = ['127.0.0.1', '127.0.0.2', 'localhost', 'localhost:8080', 'light-place.nl', 'www.light-place.nl']
 
 INSTALLED_APPS += [
     'debug_toolbar'

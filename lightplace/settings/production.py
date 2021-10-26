@@ -1,7 +1,8 @@
 from .base import *
+from decouple import config
 
-DEBUG = config('DEBUG', cast=bool)
-ALLOWED_HOSTS = ['ip-address', 'light-place.nl', 'www.light-place.nl']
+#DEBUG = config('DEBUG', cast=bool)
+#ALLOWED_HOSTS = ['ip-address', 'light-place.nl', 'www.light-place.nl']
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
