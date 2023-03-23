@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+        <div class="row">
+             <div class="col-md-6">
+                <h1>Het resultaat</h1>
+            </div>
+           <div class="col-md-6">
+            </div>
+        </div>
+
+        <div class="row">
+             {% if theCardSession.csn_CardImage.image %}
+             <div class="col-md-12 hero-image" style="background-image: url('{{ theCardSession.csn_CardImage.image.url }}');
+">
+                 <div class="hero-text " >
+                     <div class="neons">
+                {% if theCardSession.csn_TheResipient %}
+                    <h1 style="font-size:50px; font-family: 'Codystar';"><em>Beste {{ theCardSession.csn_TheResipient  }}</em></h1>
+                {% else %}
+                    <h1 style="font-size:50px">Nog geen ontvanger gekozen</h1>
+                {% endif %}
+                    </div>
+
+
+                {% if theCardSession.csn_CardTextUser != '' %}
+                    <h3>{{ theCardSession.csn_CardTextUser|safe  }}</h3>
+                {% else %}
+                    <h3>Tekst komt nog</h3>
+                {% endif %}
+                 </div>
+             </div>
+             {% endif %}
+
+        </div>
+       <div class="row">
+             <div class="col-md-6">
+                <a href="/sendTheMail/{{ theCardSession.id }}" class="btn btn-primary">Verzenden</a><br>
+             </div>
+           <div class="col-md-6">
+            </div>
+        </div>
+
+{% endblock content %}

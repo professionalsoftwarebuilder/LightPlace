@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+  <section class="d-none d-md-block">
+   
+    <div id="OmObjecten" class="container">
+   
+      <div id="RijEersteBar" class="row">
+        <div id="horSpacer1" class="col-2">
+        </div><!--2e Col-->
+        <div id="grootPlaatje" class="col-8">
+            <img src="{% static 'img/LightPlaceLogo-02.png' %}"  alt="Light Place" class="img-fluid" id="JacobCohen">
+        </div><!--Eerste Col-->
+        <div id="horSpacer2" class="col-2 ">
+        </div><!--Derede Col-->
+      
+      </div> <!--Rij om alles-->
+  
+     <div id="RijTwedeBar" class="row">
+        <div id="grootPlaatje" class="col">
+        </div><!--Eerste Col-->
+        <div id="eenHoogPlaatje" class="col-8 text-center text-primary display-1">
+         <span  > Chatten</span>
+         <span  > Bloggen</span>
+         <span  > E-Cards</span>
+         <span  > Enz.</span>
+        </div><!--2e Col-->
+        
+        <div id="tweeKleine" class="col">
+        </div><!--Derede Col-->
+      </div> <!--Rij om alles-->
+  
+  </div>
+  
+  </section>
+
+
+{% endblock content %}

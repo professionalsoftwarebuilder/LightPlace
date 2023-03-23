@@ -1,0 +1,136 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}"/>
+
+    <title>
+        {% block head_title %}
+        {% endblock %}
+    </title>
+
+    {% include 'css.html' %}
+      
+    {% block extra_head %} 
+    {% endblock %} 
+    
+    <style type="text/css">
+    @media (min-width: 768px) {
+  /* For show 3 advance 1 corousel */  
+
+		.carousel-inner .carousel-item.active,
+		.carousel-inner .carousel-item-next,
+		.carousel-inner .carousel-item-prev {
+		  	display: flex;
+		}
+		
+		.carousel-inner .carousel-item-right.active,
+		.carousel-inner .carousel-item-next {
+		  	transform: translateX(33%);
+		}
+		
+		.carousel-inner .carousel-item-left.active, 
+		.carousel-inner .carousel-item-prev {
+		  	transform: translateX(-33%);
+		}
+		  
+		.carousel-inner .carousel-item-right,
+		.carousel-inner .carousel-item-left{ 
+		  	transform: translateX(0);
+		  
+		}
+		
+		.movie-img {
+			height:200px;width: 150px;background-color:  aqua;overflow: hidden;background-image: url("https://i.hizliresim.com/mX07R4.png");
+			background-repeat:no-repeat;
+			background-size: cover;
+			object-fit: fill;
+		}
+
+		.movie-title {
+			height: 40px; width:150px;background-color: black;overflow: hidden;
+		}
+	}
+    </style>
+ 
+ 
+
+    <style type="text/css">
+        html,
+        body,
+        header,
+        .carousel {
+            height: 60vh;
+        }
+        
+        @media (max-width: 740px) {
+            html,
+            body,
+            header,
+            .carousel {
+                height: 100vh;
+            }
+        }
+        
+        @media (min-width: 800px) and (max-width: 850px) {
+            html,
+            body,
+            header,
+            .carousel {
+                height: 100vh;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    {% include "above_navbar.html" %} 
+    
+    {% include "navbar.html" %}
+
+
+    <div class="">
+        {% if messages %} 
+        
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;
+          </span>
+        </button>
+        </div>
+        {% endfor %} 
+        {% endif %}
+    </div>
+
+    <main class=" pt-4">
+        <div class="container dark-grey-text">
+        {% block content %}
+    
+        {% endblock content %}
+
+    
+        {% block extra_body %}
+        {% endblock %}
+    
+        {% include "footer.html" %}
+        </div>
+    </main>
+
+    {% include "scripts.html" %} 
+    
+    {% block extra_scripts %} 
+    {% endblock extra_scripts %}
+
+</body>
+
+</html>

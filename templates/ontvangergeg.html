@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!--
+Wanneer een kaartcreator succesvol is ingelogd, krijgt hij zijn gegevens te zien en kan die event wijzigen
+Gegevens:
+- zijn eigen persoons gegevens
+- eerder gemaakte kaartsessies
+- zijn ontvangers
+
+-->
+        <div class="row">
+             <div class="col-md-6">
+                <h1>Ontvanger gegevens</h1>
+            </div>
+           <div class="col-md-6">
+            </div>
+        </div>
+
+        <div class="row">
+             <div class="col-md-6">
+
+             </div>
+           <div class="col-md-6">
+            </div>
+        </div>
+        <form action="{% url 'core:ontvangergeg' ontId %}" method="post" autocomplete="off">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-md-6">
+                {{ form }}
+            </div>
+            <div class="col-md-6">
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-success ">
+                    <i class="fas fa-database"></i>
+                    Opslaan
+                </button>
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+    </form>
+{% endblock content %}

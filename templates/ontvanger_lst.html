@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block head_title %}Lijst ontvangers{% endblock %}
+
+{% block content %}
+<h1>Ontvangers</h1>
+<a href="/ontvangergeg/0/{{ usrId }}" class="btn btn-primary" >Voeg ontvanger toe</a>
+<ul>
+{% for ontvanger in object_list %}
+    <li>{{ ontvanger.ont_Naam }} - {{ ontvanger.ont_Email }} - {{ ontvanger.ont_Mobiel }}<br>
+
+        <a href="/ontvangergeg/{{ ontvanger.id }}" >Toon</a><br>
+        <a href="{% url 'core:cardSession_Recp' ontvanger.id  %}" >Kies deze</a>
+
+    </li>
+{% empty %}
+    <li>Nog geen ontvangers</li>
+{% endfor %}
+</ul>
+{% endblock content %}

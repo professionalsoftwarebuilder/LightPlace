@@ -1,0 +1,317 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load avatar_tags %}
+{% load ps_chat_tags %}
+
+{% block content %}
+
+
+<div id="theWrapper" class="theWrapper">
+<div id="frame">
+	<div id="sidepanel">
+		<div id="profile">
+			<div class="wrap">
+				{% if usrProfile.prf_ProfileImg %}
+					<img id="profile-img" src="{{ usrProfile.prf_ProfileImg.url }}" class="online" alt="" />
+				{% else %}
+            {% comment %}
+            {% avatar user 36 %}
+            {% endcomment %}
+				{% endif %}
+				<p>{{theUsername}}</p>
+				<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+				<div id="status-options">
+					<ul>
+						<li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
+						<li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
+						<li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
+						<li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
+					</ul>
+				</div>
+				<div id="expanded">
+					<label for="twitter"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></label>
+					<input name="twitter" type="text" value="mikeross" />
+					<label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
+					<input name="twitter" type="text" value="ross81" />
+					<label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
+					<input name="twitter" type="text" value="mike.ross" />
+				</div>
+			</div>
+		</div>
+		<div id="search">
+			<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+			<input type="text" placeholder="Search contacts..." />
+		</div>
+		<div id="contacts">
+			<ul>
+				{% for aChat in userChats %}
+				{% get_companion usrProfile aChat as companion %}
+				<li class="contact" id="chat{{ forloop.counter0 }}">
+					<div class="wrap">
+						<span class="contact-status online"></span>
+							{% avatar companion.prf_User 36 %}
+						<div class="meta">
+							<p class="name">{{ companion.prf_User.username }}</p>
+							<p class="preview">Bla bla bla</p>
+							<button onclick="setWebSocket('{{ aChat.cht_Name }}', {{ forloop.counter0 }}, '{{ companion.prf_User.username }}')">Chat with</button>
+						</div>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div id="bottom-bar">
+			<button id="addcontact" onclick="toContactSelect()" >
+				<i class="fa fa-user-plus fa-fw" aria-hidden="true">
+				</i>
+				<span>
+					Contact toevoegen
+				</span>
+			</button>
+			<button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+		</div>
+	</div>
+	<div class="content">
+		<div class="contact-profile">
+			<img id="contact-img" src="{% static 'img/NoBody.jpg' %}" alt="" />
+			<p id="contact-nm">Nog geen chat geselecteerd</p>
+			<div class="social-media">
+				<i class="fa fa-facebook" aria-hidden="true"></i>
+				<i class="fa fa-twitter" aria-hidden="true"></i>
+				 <i class="fa fa-instagram" aria-hidden="true"></i>
+			</div>
+		</div>
+		<div class="messages">
+			<ul id="chat-log" >
+
+			</ul>
+		</div>
+		<div class="message-input">
+			<div class="wrap">
+			<input id="chat-message-input" type="text" placeholder="Write your message..." />
+			<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+
+			<button id="chat-message-submit" class="submit">
+				<i class="fa fa-paper-plane" aria-hidden="true">
+
+				</i>
+			</button>
+			</div>
+		</div>
+
+
+
+
+    <script>
+        var debug01 = false;
+        /// Setting the Socket
+        var debug03 = false;
+        var debug02 = false;
+        //var debug02 = false;
+
+
+
+		if (debug01){alert('debug 01');};
+		if (debug03){alert('debug 03; setting the socket');};
+
+    	//var theUsername = JSON.parse(document.getElementById('theUsername').textContent);
+        //const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+        // Declare globals
+        var roomName = "{{ room_name }}";
+    	if (debug01){alert('roomName: ' + roomName);};
+    	var theUsername = "{{theUsername}}";
+		//alert(theUsername);
+        var chatSocket;
+        var chatGroupNm = 'PietjePuk';
+        var imgSrc_interLocutor;
+
+        if (roomName !== 'empty')
+        {
+        	setWebSocket(roomName)
+        }
+
+        if (debug01){alert('Globals declared');};
+
+        function setWebSocket(chatNm, aCount, interlocutor)
+        {
+            if (debug03){alert('in setWebSocket');};
+            chatGroupNm = chatNm;
+
+            clearChatLog();
+
+			document.querySelector('#contact-nm').innerHTML = interlocutor;
+
+  		    /// Remove active class form contact elements
+  		    var items = document.getElementsByClassName('contact');
+			for (var i=0; i < items.length; i++)
+			{
+				items[i].classList.remove('active');
+      		    if (debug01){alert('active removed');};
+			}
+
+  			var contElem = document.getElementById('chat' + aCount ).classList.add('active');
+			if (debug03){alert("Selected chat: chat" + aCount);};
+
+			/// Get the image of active contact
+			var imgElement = document.getElementById('chat' + aCount ).getElementsByTagName('img')[0];
+			if (debug03){alert('set img');};
+			if (imgElement)
+			{
+				//alert('set the img')
+				imgSrc_interLocutor = imgElement.getAttribute('src');
+				document.querySelector('#contact-img').src = imgSrc_interLocutor;
+			}
+
+			var socUrl =  'wss://'
+				+ window.location.host
+				+ '/ws/QQQQ/'
+				+ chatNm
+				+ '/';
+
+			if (debug03){alert('socUrl: ' + socUrl);};
+			if (chatSocket)
+			{
+				if (debug03){alert('closing chatsocket');};
+				chatSocket.close();
+			};
+
+			//alert('ok2');
+	        chatSocket = new WebSocket(socUrl);
+
+			/// Let op, onOpen moet pal achter creatie van websocet staan
+			chatSocket.onopen = function(e)
+			{
+				if (debug03){alert('In ChatSocket onopen');};
+				/// fetchMessages werkt niet goed in deze event
+				fetchMessages();
+			};
+
+    	    //if (debug03){'protocol: ' + alert(chatSocket.protocol);};
+    	    //if (debug02){console.log(chatSocket);};
+
+    	    if (debug03){alert('websoc created: ' + socUrl);};
+    	    if (debug03){'readyState: ' + alert(chatSocket.readyState);};
+
+    	    document.querySelector('#chat-message-input').focus();
+
+			chatSocket.onmessage = function(e) {
+				if (debug02){alert('in onmessage');};
+				const data = JSON.parse(e.data);
+				if (data['command'] == 'messages') {
+					if (debug03){alert('cmd is msgs');};
+					for (i = 0; i < data['messages'].length; i++) {
+						createMessage(data['messages'][i]);
+					}
+				} else if (data['command'] == 'new_message') {
+					if (debug01){alert('cmd is nw_msg');};
+					createMessage(data['message']);
+				};
+			};
+
+			chatSocket.onclose = function(e)
+			{
+				if (debug03){alert("[closed] Connection closed");};
+				console.error('Chat socket closed unexpectedly');
+			};
+
+			fetchMessages();
+			if (debug03){alert('End of ChatInitFunction');};
+        };
+
+		//alert('debug 010');
+
+
+
+		//alert('debug 011');
+        function fetchMessages() {
+        	if (debug03){alert('in fetchM..');};
+        	if (debug03){alert('chatGroupNm: ' + chatGroupNm );};
+        	chatSocket.send(JSON.stringify({
+        		'command': 'fetch_messages',
+        		'chatGroupNm': chatGroupNm
+        		}));
+        };
+
+		//alert('debug 011');
+
+		function createMessage(data) {
+            var message = data;
+            var author = message['author'];
+            if (debug01){alert('author' + author);};
+            var msgListTag = document.createElement('li');
+            var imgTag = document.createElement('img');
+            var pTag = document.createElement('p');
+            pTag.textContent = message.content;
+
+            if (author == theUsername) {
+            	msgListTag.className = "sent";
+<!--            	imgTag.src = "% avatar_url user 28 %";-->
+            	}else{
+            	msgListTag.className = "replies";
+            	imgTag.src = imgSrc_interLocutor;
+            	};
+            msgListTag.appendChild(imgTag);
+            msgListTag.appendChild(pTag);
+
+            document.querySelector('#chat-log').appendChild(msgListTag);
+        };
+
+        function clearChatLog()
+        {
+        	document.querySelector('#chat-log').innerHTML = '';
+        }
+
+        document.querySelector('#chat-message-input').focus();
+
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+		if (debug01){alert('Going to couple chat-message-submit onclick');};
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+        	if (debug01){alert('in send onclick');}
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            if (message)
+            {
+				if (debug01){alert('Going to send message');};
+				chatSocket.send(JSON.stringify({
+					'message': message,
+					'command': 'new_message',
+					'from': theUsername,
+					'chatGroupNm': chatGroupNm
+				}));
+            };
+       		if (debug01){alert('Message sent');};
+
+       		messageInputDom.value = '';
+       		document.querySelector('#chat-message-input').focus();
+        };
+
+
+		function toContactSelect()
+		{
+			//alert('in send toContactSelect');
+
+			if (chatSocket)
+			{
+				if (debug01){alert('closing chatsocket');};
+				chatSocket.close();
+			};
+
+			window.location.href="{% url 'chat:list_contacts' %}";
+		};
+
+		if (debug01){alert('End of Schript');};
+
+     </script>
+
+	</div>
+</div>
+	</div>
+
+{% endblock content %}

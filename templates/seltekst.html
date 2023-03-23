@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+    <!--Navbar-->
+    {% include "navbar2_txt.html" %}
+
+    {% if tekstRecs.count == 0 %}
+        <h2>No corresponding texts found</h2>
+    {% endif %}
+
+    <div class="row">
+        <ul>
+        {% for tekst in tekstRecs %}
+            <li>
+                <a href="{% url 'core:cardSession_Update' tekst.id %}" class="btn btn-primary">{{ tekst.tks_Title }}</a><br>
+                {{ tekst.tks_TheText|safe }}
+            </li>
+
+        {% endfor %}
+        </ul>
+
+    </div>
+{% endblock content %}

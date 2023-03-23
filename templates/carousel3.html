@@ -1,0 +1,18 @@
+
+<div id="theCallery" class="container"  >
+
+  <div id="theCallRow" class="row">
+    {% for obj in object.fotoset_set.all %}
+        {% if forloop.first %}
+            <div class="col-{{ colWidth }} active">
+        {% else %}
+            <div class="col-{{ colWidth }}">
+        {% endif %}
+        <img class="img-responsive" style="max-height:350px; max-width:180px"  
+        src="{{ obj.fst_Image.url}}" alt="{{obj.fst_Title}}">
+
+        </div>
+    {% endfor %}
+  </div>
+</div> 
+

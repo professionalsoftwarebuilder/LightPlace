@@ -1,0 +1,38 @@
+{% load static %}
+
+<!-- #$# begin prodshow -->
+
+<!-- In deze rij de active afbeelding -->
+        <!-- 1. Insert the first product image to the gallery -->
+        {% if object.image %}
+        <div class="zi-show" href="{{ object.image.url}}">
+            <img src="{{ object.image.url}}" alt="{{obj.fst_Title}}" id="zi-show-img">
+        </div>
+        {% endif %}
+<!-- 2. Create a thumbnail carousel that enable the customers to switching between product images by clicking the thumbnail images. -->
+    <div class="zi-small-img" style="display: block; width: 100%" >
+        <!--
+            <img src="{% static 'img/showProd/online_icon_right@2x.png' %}" class="icon-left" alt=""        id="prev-img">
+        -->
+
+        <div class="zi-small-container" >
+            <!-- In deze div wordt in main.js een carousel achtig ding gedaan -->
+            <div id="zi-small-img-roll">
+                    {% for obj in object.fotoset_set.all %}
+                        <div style="max-width: 60px; height: 60px; overflow: hidden; display: inline-block;">
+                    		{% if obj.fst_Image %}
+                            <img src="{{ obj.fst_Image.url}}" class="zi-show-zi-small-img img-fluid" alt="" >
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+            </div>
+        </div>
+        <!--
+        <img src="{% static 'img/showProd/online_icon_right@2x.png' %}" class="icon-right" alt="" id="next-img">
+        -->
+</div>
+
+	
+	
+	
+	

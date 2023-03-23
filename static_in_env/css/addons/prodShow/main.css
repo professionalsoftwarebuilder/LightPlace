@@ -1,0 +1,61 @@
+
+
+
+.zi-show{
+    float: left;
+      width: auto;
+    height: auto; 
+  display:inline-block;
+}
+
+#zi-show-img { width: 400px; height: 400px; }
+
+.zi-small-img{
+  width: 350px;
+  height: 70px;
+  margin-top: 10px;
+  position: relative;
+  left: 25px;
+}
+.zi-small-img .icon-left, .zi-small-img .icon-right{
+  width: 12px;
+  height: 24px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+}
+.zi-small-img .icon-left{
+  transform: rotate(180deg)
+}
+.zi-small-img .icon-right{
+  right: 0;
+}
+.zi-small-img .icon-left:hover, .zi-small-img .icon-right:hover{
+  opacity: .5;
+}
+.zi-small-container{
+  width: 310px;
+  height: 70px;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+.zi-small-container div{
+  width: 800%;
+  position: relative;
+}
+
+.zi-small-container .zi-show-zi-small-img{
+  width: 70px;
+  height: 70px;
+  margin-right: 6px;
+  cursor: pointer;
+  float: left;
+}
+.zi-small-container .zi-show-zi-small-img:last-of-type{
+  margin-right: 0;
+}

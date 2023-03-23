@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% comment %}
+<!--{% load crispy_forms_tags %}-->
+{% endcomment %}
+
+{% block content %}
+
+<style>
+
+</style>
+
+        <div class="row">
+             <div class="col-md-6">
+                <h1>Stel een kaart samen</h1>
+            </div>
+           <div class="col-md-6">
+            </div>
+        </div>
+
+        <div class="row">
+             <div class="col-md-6">
+                {% if theCardSession.csn_CardImage.image %}
+                   <img src="{{ theCardSession.csn_CardImage.image.url }}" class="card-img-top">
+                {% endif %}
+             </div>
+           <div class="col-md-6">
+            </div>
+        </div>
+       <div class="row">
+             <div class="col-md-6">
+                {% if theCardSession.csn_TheResipient %}
+                    <p>De ontvanger is: {{ theCardSession.csn_TheResipient  }}</p>
+                {% else %}
+                    <p>Nog geen ontvanger gekozen</p>
+                {% endif %}
+                <p>U zend deze kaart onder de naam: {{ theCardSession.csn_SenderNm }}</p>
+             </div>
+           <div class="col-md-6">
+            </div>
+        </div>
+        <form action="" method="post" autocomplete="off">
+        {% csrf_token %}
+        {{ form.media }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ form.csn_CardTextUser }} <br>
+
+            </div>
+            <div class="col-md-6">
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 vert-button-spacer" >
+                <button type="submit" class="btn btn-success ">
+                    <i class="fas fa-send"></i>
+                    Verzend
+                </button>
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+    </form>
+
+       <div class="row">
+            <div class="col-md-6">
+
+                <a href="{% url 'core:sendTheMail' theCardSession.id %}" class="btn btn-primary">x. Verzend</a><br>
+                <a href="{% url 'core:update_profile' %}" class="btn btn-primary">1. Een test</a><br>
+                <a href="{% url 'core:startNewCard' %}" class="btn btn-primary">1. Start nieuwe kaart</a><br>
+                <a href="/sel-tekst" class="btn btn-primary">2. Selecteer een tekst</a><span style="fontweight:bold">U kunt tekst zelf typen, selecteren of selecteren en wijzigen</span><br>
+                <a href="{% url 'core:products' %}" class="btn btn-primary">3. Selecteer een afbeelding</a><br>
+                <a href="{% url 'core:ontvangerlijst' %}" class="btn btn-primary">4. Geef ontvanger mail of whatsapp op</a><br>
+                <a href="{% url 'core:resultaat' %}" class="btn btn-primary">5. Bekijk resultaat</a><br>
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+{% endblock content %}
