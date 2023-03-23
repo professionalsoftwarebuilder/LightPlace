@@ -194,7 +194,16 @@ class HomeView(ListView):
 
 
 def startNewCard(request):
-    return render(request, 'startnewcard.html', {})
+    if request.user.is_authenticated:
+        form = ProfileForm(instance=request.user.profile)
+        user = request.user
+        context = {
+            'theUser': user,
+            'form': form,
+        }
+        return render(request, "afzendergeg.html", context)
+    else:
+        return render(request, 'startnewcard.html', {})
 
 def login_creator(request):
     if request.method == 'GET':

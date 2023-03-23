@@ -7,7 +7,7 @@
 {% block content %}
 
 <style>
-
+<!--    page styling-->
 </style>
 
         <div class="row">
@@ -34,7 +34,11 @@
                 {% else %}
                     <p>Nog geen ontvanger gekozen</p>
                 {% endif %}
-                <p>U zend deze kaart onder de naam: {{ theCardSession.csn_SenderNm }}</p>
+                {% if theCardSession.csn_SenderNm %}
+                    <p>U zend deze kaart onder de naam: {{ theCardSession.csn_SenderNm }}</p>
+                {% else %}
+                    <p>Geef de (uw) naam op waaronder u de kaart verzend</p>
+                {% endif %}
              </div>
            <div class="col-md-6">
             </div>
@@ -68,8 +72,8 @@
        <div class="row">
             <div class="col-md-6">
 
-                <a href="{% url 'core:sendTheMail' theCardSession.id %}" class="btn btn-primary">x. Verzend</a><br>
-                <a href="{% url 'core:update_profile' %}" class="btn btn-primary">1. Een test</a><br>
+<!--                <a href="{% url 'core:sendTheMail' theCardSession.id %}" class="btn btn-primary"><i class="fas fa-send"> Verzend</i></a><br>-->
+                <a href="{% url 'core:update_profile' %}" class="btn btn-primary">Een test</a><br>
                 <a href="{% url 'core:startNewCard' %}" class="btn btn-primary">1. Start nieuwe kaart</a><br>
                 <a href="/sel-tekst" class="btn btn-primary">2. Selecteer een tekst</a><span style="fontweight:bold">U kunt tekst zelf typen, selecteren of selecteren en wijzigen</span><br>
                 <a href="{% url 'core:products' %}" class="btn btn-primary">3. Selecteer een afbeelding</a><br>
